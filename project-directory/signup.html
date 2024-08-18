@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase SDK 추가 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+        // Firebase 설정 정보
+        const firebaseConfig = {
+          apiKey: "AIzaSyCYcokUpPZN0jimMtOoVBdWwXA05l3aSNA",
+          authDomain: "login2408-13b20.firebaseapp.com",
+          projectId: "login2408-13b20",
+          storageBucket: "login2408-13b20.appspot.com",
+          messagingSenderId: "6203856190",
+          appId: "1:6203856190:web:dedd1322c16a32440cc86f",
+        };
+
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // 회원가입 기능 구현
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    alert('회원가입 성공! 환영합니다.');
+                    window.location.href = 'login.html'; // 회원가입 후 로그인 페이지로 이동
+                })
+                .catch((error) => {
+                    const errorMessage = error.message;
+                    document.getElementById('errorMessage').textContent = `회원가입 실패: ${errorMessage}`;
+                    document.getElementById('errorMessage').style.display = 'block';
+                });
+        });
+    </script>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+            <p id="errorMessage" class="error"></p>
+        </form>
+        <p class="login-text">이미 계정이 있으신가요? <a href="index.html">로그인</a></p>
+    </div>
+</body>
+</html>
